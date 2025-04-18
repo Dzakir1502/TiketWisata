@@ -3,10 +3,10 @@ import '../../../core/core.dart';
 import '../models/printer_model.dart';
 
 class MenuPrinterContent extends StatelessWidget {
-  final PrinterModel printerModel;
+  final PrinterModel data;
 
   const MenuPrinterContent({super.key,
-    required this.printerModel,
+    required this.data,
     });
 
   @override
@@ -26,13 +26,13 @@ class MenuPrinterContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Name: ${printerModel.name}',
+            'Name: ${data.name}',
             style: const TextStyle(
               fontWeight: FontWeight.w700,
             ),
           ),
           Text(
-            'Address: ${printerModel.address}',
+            'Address: ${data.address}',
             style: const TextStyle(
               fontSize: 12,
               color: AppColors.grey,
