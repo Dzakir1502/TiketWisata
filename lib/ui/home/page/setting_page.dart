@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:tiket_wisata/ui/home/dialogs/sync_data_dialog.dart';
+import 'package:tiket_wisata/ui/home/page/setting_printer_page.dart';
 import 'package:tiket_wisata/ui/home/widgets/setting_button.dart';
 import '../../../core/core.dart';
+import '../dialogs/logout_ticket_dialog.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({super.key});
@@ -13,30 +16,40 @@ class SettingPage extends StatelessWidget {
       ),
       body: GridView.count(
         padding: const EdgeInsets.all(16.0),
-          crossAxisCount: 2,
-          crossAxisSpacing: 15.0,
-          mainAxisSpacing: 24.0,
-          children: [
+        crossAxisCount: 2,
+        crossAxisSpacing: 15.0,
+        mainAxisSpacing: 24.0,
+        children: [
           SettingButton(
             iconPath: Assets.icons.settings.printer.path,
             title: 'Printer',
             subTitle: 'Kelola Printer',
-            onPressed: (){}, 
-            ),
+            onPressed: () {
+              context.push(const SettingPrinterPage());
+            },
+          ),
           SettingButton(
             iconPath: Assets.icons.settings.logout.path,
             title: 'Logout',
             subTitle: 'Keluar Dari Aplikasi',
-            onPressed: (){}, 
-            ),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) => const LogoutTicketDialog());
+            },
+          ),
           SettingButton(
             iconPath: Assets.icons.settings.syncData.path,
             title: 'Sync Data',
             subTitle: 'Sinkronasi Online',
-            onPressed: (){}, 
-            ),
-          ],       
-        ),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) => const SyncDataDialog());
+            },
+          ),
+        ],
+      ),
     );
   }
 }

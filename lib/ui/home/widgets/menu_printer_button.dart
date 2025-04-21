@@ -40,7 +40,7 @@ class MenuPrinterButton extends StatelessWidget {
             label,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: isActive ? AppColors.primary : AppColors.grey,
+              color: isActive ? AppColors.white : AppColors.grey,
             ),
           ),
         ),

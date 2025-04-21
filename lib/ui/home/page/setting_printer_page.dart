@@ -12,7 +12,7 @@ class SettingPrinterPage extends StatefulWidget {
 }
 
 class _SettingPrinterPageState extends State<SettingPrinterPage> {
-  int selectIndex = 0;
+  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,26 +40,26 @@ class _SettingPrinterPageState extends State<SettingPrinterPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 MenuPrinterButton(
-                  isActive: selectIndex == 0,
+                  isActive: selectedIndex == 0,
                   label: 'Search',
                   onPressed: () {
-                    selectIndex = 0;
+                    selectedIndex = 0;
                     setState(() {});
                   },
                 ),
                 MenuPrinterButton(
-                isActive: selectIndex == 1,
+                isActive: selectedIndex == 1,
                 label: 'Disconnect',
                 onPressed: () {
-                    selectIndex = 1;
+                    selectedIndex = 1;
                     setState(() {});
                   },
                 ),
                 MenuPrinterButton(
-                  isActive: selectIndex == 2,
+                  isActive: selectedIndex == 2,
                   label: 'Test',
                   onPressed: () {
-                    selectIndex = 2;
+                    selectedIndex = 2;
                     setState(() {});
                   },
                 ),
@@ -67,6 +67,7 @@ class _SettingPrinterPageState extends State<SettingPrinterPage> {
             ),
           ),
           const SpaceHeight(34.0),
+          _Body(selectedIndex: selectedIndex, datas: printers)
         ],
       ),
     );
@@ -74,16 +75,16 @@ class _SettingPrinterPageState extends State<SettingPrinterPage> {
 }
 
 class _Body extends StatelessWidget {
-  final int selectIndex;
+  final int selectedIndex;
   final List<PrinterModel> datas;
 
-  const _Body({super.key, required this.selectIndex, required this.datas});
+  const _Body({required this.selectedIndex, required this.datas});
 
   @override
   Widget build(BuildContext context) {
     if (datas.isEmpty) {
       return const Text('No data Available');
-    } else if (selectIndex == 0) {
+    } else if (selectedIndex == 0) {
       return Container(
         padding: const EdgeInsets.all(24.0),
         decoration: BoxDecoration(
@@ -107,7 +108,7 @@ class _Body extends StatelessWidget {
               MenuPrinterContent(data: datas[index]),
         ),
       );
-    } else if (selectIndex == 1) {
+    } else if (selectedIndex == 1) {
       return Container(
         padding: const EdgeInsets.all(24.0),
         decoration: BoxDecoration(
@@ -131,6 +132,6 @@ class _Body extends StatelessWidget {
         ),
       );
     }
-     return const Placeholder();
+    return const Placeholder();
   }
 }

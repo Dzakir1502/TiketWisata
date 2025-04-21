@@ -24,6 +24,8 @@ extension NavigatorExt on BuildContext {
     );
   }
 
+  
+
   Future<T?> pushReplacement<T extends Object, TO extends Object>(
       Widget widget) async {
     return Navigator.pushReplacement<T, TO>(
@@ -31,5 +33,18 @@ extension NavigatorExt on BuildContext {
       MaterialPageRoute(builder: (context) => widget),
     );
   }
+
+  Future<T?> pushAndRemoveUntil<T extends Object>(
+      Widget widget, bool Function(Route<dynamic> route) predicate) async {
+    return Navigator.pushAndRemoveUntil<T>(
+      this,
+      MaterialPageRoute(builder: (context) => widget),
+      predicate,
+    );
+  }
+  
+  
 }
+
+
 
