@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:tiket_wisata/ui/intro/splash_page.dart';
 
-import 'package:tiket_wisata/ui/intro/splash_page.dart';
+import 'package:tiket_wisata/presentation/ui/intro/splash_page.dart';
 
 void main() {
   runApp(const MyApp());
