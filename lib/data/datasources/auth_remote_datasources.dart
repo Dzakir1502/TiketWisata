@@ -9,7 +9,7 @@ class AuthRemoteDatasources {
     try {
       final response = await http.post(Uri.parse('$baseUrl/login'),
           headers: {
-            'Cotent-Type': 'application/json; charset-UTF-8',
+            'Content-Type': 'application/json; charset=UTF-8',
             'Accept': 'application/json',
           },
           body: jsonEncode({

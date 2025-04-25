@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tiket_wisata/core/components/components.dart';
-import 'package:tiket_wisata/core/components/spaces.dart';
-import 'package:tiket_wisata/core/extensions/build_context_ext.dart';
-import 'package:tiket_wisata/presentation/ui/home/page/main_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../core/core.dart';
-import 'package:tiket_wisata/core/components/custom_text_field.dart';
+import '../../ui/home/page/main_page.dart';
+import '../../bloc/auth_bloc.dart';
+import '../../bloc/auth_event.dart';
+import '../../bloc/auth_state.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -16,61 +17,81 @@ class LoginPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppColors.primary,
-      body: Stack(children: [
-        SizedBox(
-          height: 260.0,
-          child: Center(
-            child: Assets.images.logoWhite.image(width: 200, height: 200),
-          ),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: SingleChildScrollView(
-            child: ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-              child: ColoredBox(
-                color: AppColors.white,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 28.0,
-                    vertical: 44.0,
-                  ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CustomTextField(
-                      controller: emailController,
-                      label: 'Email',
-                      isOutlineBorder:false
-                    ),
-                    const SizedBox(height: 36.0),
-                    CustomTextField(
-                      controller: passwordController,
-                      obscureText: true,
-                      label: 'Password',
-                      isOutlineBorder: false,
-                  
-                    ),
-                    const SpaceHeight(86.0),
-                    Button.filled(onPressed: (){
-                      context.pushReplacement(const MainPage());
-                    },
-                    label: 'Login'
-                    ),
-                    const SpaceHeight(128.0),
-                    Center(
-                      child:
-                          Assets.images.logoIdn.image(width: 100, height: 50),
-                    ),
-                  ],
-                ),
+      body: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is AuthFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message)),
+            );
+          } else if (state is AuthSuccess) {
+            context.pushReplacement(const MainPage());
+          }
+        },
+        builder: (context, state) {
+          return Stack(
+            children: [
+              SizedBox(
+                height: 260.0,
+                child: Center(
+                  child: Assets.images.logoWhite.image(height: 55.0),
                 ),
               ),
-            ),
-          ),
-        ),
-      ]),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SingleChildScrollView(
+                  child: ClipRRect(
+                    borderRadius:
+                        const BorderRadius.vertical(top: Radius.circular(20.0)),
+                    child: ColoredBox(
+                      color: AppColors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 28.0, vertical: 44.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomTextField(
+                              controller: emailController,
+                              label: 'Email',
+                              isOutlineBorder: false,
+                            ),
+                            const SpaceHeight(36.0),
+                            CustomTextField(
+                              controller: passwordController,
+                              label: 'Password',
+                              isOutlineBorder: false,
+                              obscureText: true,
+                            ),
+                            const SpaceHeight(86.0),
+                            state is AuthLoading
+                                ? const Center(
+                                    child: CircularProgressIndicator())
+                                : Button.filled(
+                                    onPressed: () {
+                                      final email = emailController.text.trim();
+                                      final password =
+                                          passwordController.text.trim();
+                                      context
+                                          .read<AuthBloc>()
+                                          .add(LoginEvent(email, password));
+                                    },
+                                    label: 'Login',
+                                  ),
+                            const SpaceHeight(128.0),
+                            Center(
+                              child: Assets.images.logoIdn.image(height: 40.0),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }
